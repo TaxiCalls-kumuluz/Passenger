@@ -5,18 +5,24 @@
  */
 package com.taxicalls.passenger.model;
 
-import java.io.Serializable;
-
 /**
  *
  * @author romulo
  */
-public class Address implements Serializable {
+public class Address {
 
     private final Coordinate coordinate;
 
     public Address(Coordinate coordinate) {
         this.coordinate = coordinate;
+    }
+
+    public Address() {
+        this.coordinate = null;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
 }

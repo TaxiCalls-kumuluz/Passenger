@@ -19,7 +19,7 @@ public class PassengerService {
 
     public PassengerService() {
         this.serviceName = getClass().getSimpleName();
-        this.endpointURI = "http://passenger:8080/";
+        this.endpointURI = "http://" + serviceName.replace("Service", "").toLowerCase() + ":8080/";
     }
 
     @PostConstruct

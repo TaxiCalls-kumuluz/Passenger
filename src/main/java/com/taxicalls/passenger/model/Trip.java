@@ -6,30 +6,23 @@
 package com.taxicalls.passenger.model;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import java.util.Set;
 
 /**
  *
  * @author romulo
  */
-@Entity
-@NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r")
-public class Route implements Serializable {
+public class Trip implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Address addressFrom;
     private Address addressTo;
+    private Set<Passenger> passengers;
 
-    protected Route() {
+    protected Trip() {
     }
 
-    public Route(Integer id) {
+    public Trip(Integer id) {
         this.id = id;
     }
 
@@ -43,6 +36,10 @@ public class Route implements Serializable {
 
     public Address getAddressTo() {
         return addressTo;
+    }
+
+    public Set<Passenger> getPassengers() {
+        return passengers;
     }
 
 }

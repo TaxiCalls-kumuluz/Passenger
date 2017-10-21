@@ -5,13 +5,11 @@
  */
 package com.taxicalls.passenger.model;
 
-import java.io.Serializable;
-
 /**
  *
  * @author romulo
  */
-public class Coordinate implements Serializable {
+public class Coordinate {
 
     private final Long longitude;
     private final Long latitude;
@@ -19,6 +17,19 @@ public class Coordinate implements Serializable {
     public Coordinate(Long longitude, Long latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public Coordinate() {
+        this.longitude = null;
+        this.latitude = null;
+    }
+
+    public Long getLatitude() {
+        return latitude;
+    }
+
+    public Long getLongitude() {
+        return longitude;
     }
 
 }
