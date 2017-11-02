@@ -1,18 +1,15 @@
 package com.taxicalls.passenger.resources;
 
-import com.taxicalls.passenger.model.Driver;
-import com.taxicalls.passenger.model.Trip;
-import com.taxicalls.passenger.services.NotificationService;
-import com.taxicalls.passenger.services.TripService;
+import com.taxicalls.passenger.model.Passenger;
 import com.taxicalls.protocol.Response;
-import java.util.Collection;
 import java.util.HashMap;
+
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -22,23 +19,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/trips")
+@Path("/authenticate")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequestScoped
-public class TripsResource {
-
-    @Inject
-    private TripService tripService;
-
-    @Inject
-    private NotificationService notificationService;
-
-    private static final Logger LOGGER = Logger.getLogger(TripsResource.class.getName());
+public class AuthenticateResource {
 
     private final EntityManager em;
+    private static final Logger LOGGER = Logger.getLogger(AuthenticateResource.class.getName());
 
-    public TripsResource() {
+    public AuthenticateResource() {
         Map<String, String> env = System.getenv();
         Map<String, Object> configOverrides = new HashMap<>();
         env.keySet().forEach((envName) -> {
@@ -53,25 +43,15 @@ public class TripsResource {
     }
 
     @POST
-    public Response createTrip(Trip trip) {
-        LOGGER.log(Level.INFO, "createTrip() invoked");
-        em.getTransaction().begin();
-        em.persist(trip);
-        em.getTransaction().commit();
-        return Response.successful(trip);
+    public Response authenticatePassenger(Passenger passenger) {
+        LOGGER.log(Level.INFO, "authenticatePassenger() invoked");
+        List<Passenger> passengers = em.createNamedQuery("Passenger.findAll", Passenger.class).getResultList();
+        for (Passenger stored : passengers) {
+            if (stored.getEmail().equals(passenger.getEmail()) && stored.getPassword().equals(passenger.getPassword())) {
+                return Response.successful(stored);
+            }
+        }
+        return Response.notFound();
     }
 
-    @POST
-    @Path("/drivers/available")
-    public Response getAvailableDrivers(Trip trip) {
-        LOGGER.log(Level.INFO, "getAvailableDrivers() invoked");
-        return tripService.getAvailableDrivers(trip);
-    }
-
-    @POST
-    @Path("/drivers/choose")
-    public Response chooseDriver(Driver driver) {
-        LOGGER.log(Level.INFO, "chooseDriver() invoked");
-        return notificationService.chooseDriver(driver);
-    }
 }

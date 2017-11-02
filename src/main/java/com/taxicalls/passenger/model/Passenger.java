@@ -22,18 +22,18 @@ public class Passenger implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String email;
     private String password;
 
     protected Passenger() {
     }
 
-    public Passenger(Integer id) {
+    public Passenger(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

@@ -1,6 +1,7 @@
 package com.taxicalls.passenger.resources;
 
 import com.taxicalls.passenger.model.Passenger;
+import com.taxicalls.protocol.Response;
 import java.util.HashMap;
 
 import java.util.List;
@@ -19,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Path("/passengers")
 @Produces(MediaType.APPLICATION_JSON)
@@ -49,7 +49,7 @@ public class PassengersResource {
         em.getTransaction().begin();
         em.persist(passenger);
         em.getTransaction().commit();
-        return Response.status(Response.Status.CREATED).entity(passenger).build();
+        return Response.successful(passenger);
     }
 
     @GET
@@ -57,16 +57,16 @@ public class PassengersResource {
         LOGGER.log(Level.INFO, "getPassengers() invoked");
         List<Passenger> passengers = em.createNamedQuery("Passenger.findAll", Passenger.class).getResultList();
         LOGGER.log(Level.INFO, "getPassengers() found {0}", passengers.size());
-        return Response.ok(passengers).build();
+        return Response.successful(passengers);
     }
 
     @GET
     @Path("/{id}")
-    public Response getPassenger(@PathParam("id") Integer id) {
+    public Response getPassenger(@PathParam("id") Long id) {
         Passenger passenger = em.find(Passenger.class, id);
         if (passenger == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.notFound();
         }
-        return Response.ok(passenger).build();
+        return Response.successful(passenger);
     }
 }
