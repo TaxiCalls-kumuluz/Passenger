@@ -5,7 +5,7 @@
  */
 package com.taxicalls.passenger.services;
 
-import com.taxicalls.passenger.model.Driver;
+import com.taxicalls.passenger.resources.ChooseDriverRequest;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.utils.ServiceRegistry;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,11 +28,11 @@ public class NotificationService {
     public NotificationService() {
     }
 
-    public Response chooseDriver(Driver driver) {
+    public Response chooseDriver(ChooseDriverRequest chooseDriverRequest) {
         return ClientBuilder.newClient()
                 .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
-                .path("notifications")
+                .path("drivers")
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(driver, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(chooseDriverRequest, MediaType.APPLICATION_JSON), Response.class);
     }
 }

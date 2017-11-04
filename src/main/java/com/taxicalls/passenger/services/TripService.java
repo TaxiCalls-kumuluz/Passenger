@@ -5,7 +5,7 @@
  */
 package com.taxicalls.passenger.services;
 
-import com.taxicalls.passenger.model.Trip;
+import com.taxicalls.passenger.resources.AvailableDriversRequest;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.utils.ServiceRegistry;
 import javax.enterprise.context.ApplicationScoped;
@@ -28,11 +28,11 @@ public class TripService {
     public TripService() {
     }
 
-    public Response getAvailableDrivers(Trip trip) {
+    public Response getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
         return ClientBuilder.newClient()
                 .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
                 .path("drivers").path("available")
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(trip, MediaType.APPLICATION_JSON), Response.class);
+                .post(Entity.entity(availableDriversRequest, MediaType.APPLICATION_JSON), Response.class);
     }
 }

@@ -1,11 +1,9 @@
 package com.taxicalls.passenger.resources;
 
-import com.taxicalls.passenger.model.Driver;
 import com.taxicalls.passenger.model.Trip;
 import com.taxicalls.passenger.services.NotificationService;
 import com.taxicalls.passenger.services.TripService;
 import com.taxicalls.protocol.Response;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -55,9 +53,6 @@ public class TripsResource {
     @POST
     public Response createTrip(Trip trip) {
         LOGGER.log(Level.INFO, "createTrip() invoked");
-        em.getTransaction().begin();
-        em.persist(trip);
-        em.getTransaction().commit();
         return Response.successful(trip);
     }
 
@@ -65,13 +60,16 @@ public class TripsResource {
     @Path("/drivers/available")
     public Response getAvailableDrivers(Trip trip) {
         LOGGER.log(Level.INFO, "getAvailableDrivers() invoked");
-        return tripService.getAvailableDrivers(trip);
+        AvailableDriversRequest availableDriversRequest = new AvailableDriversRequest();
+        availableDriversRequest.setCoordinate(trip.getAddressFrom().getCoordinate());
+        availableDriversRequest.setRatio(5);
+        return tripService.getAvailableDrivers(availableDriversRequest);
     }
 
     @POST
     @Path("/drivers/choose")
-    public Response chooseDriver(Driver driver) {
+    public Response chooseDriver(ChooseDriverRequest chooseDriverRequest) {
         LOGGER.log(Level.INFO, "chooseDriver() invoked");
-        return notificationService.chooseDriver(driver);
+        return notificationService.chooseDriver(chooseDriverRequest);
     }
 }

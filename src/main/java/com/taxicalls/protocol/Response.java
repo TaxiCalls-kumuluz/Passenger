@@ -15,6 +15,12 @@ public class Response {
     private final String message;
     private final Object entity;
 
+    protected Response() {
+        this.status = null;
+        this.message = null;
+        this.entity = null;
+    }
+
     public Response(Status status) {
         this.status = status;
         this.message = null;
@@ -51,6 +57,10 @@ public class Response {
 
     public static Response successful(Object object) {
         return new Response(Status.SUCCESSFUL, object);
+    }
+    
+    public static Response successful() {
+        return new Response(Status.SUCCESSFUL);
     }
 
     public Status getStatus() {
