@@ -6,6 +6,7 @@
 package com.taxicalls.passenger.services;
 
 import com.taxicalls.passenger.resources.AvailableDriversRequest;
+import com.taxicalls.passenger.resources.ChooseDriverRequest;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.utils.ServiceRegistry;
 import javax.enterprise.context.ApplicationScoped;
@@ -34,5 +35,13 @@ public class TripService {
                 .path("drivers").path("available")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(availableDriversRequest, MediaType.APPLICATION_JSON), Response.class);
+    }
+
+    public Response chooseDriver(ChooseDriverRequest chooseDriverRequest) {
+        return ClientBuilder.newClient()
+                .target(serviceRegistry.discoverServiceURI(getClass().getSimpleName()))
+                .path("drivers").path("choose")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(chooseDriverRequest, MediaType.APPLICATION_JSON), Response.class);
     }
 }

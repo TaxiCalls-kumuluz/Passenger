@@ -69,6 +69,9 @@ public class Driver implements Serializable {
         this.status = status;
     }
 
+    public void setCar(String car) {
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;

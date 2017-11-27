@@ -25,6 +25,7 @@ public class Passenger implements Serializable {
     private Long id;
     private String email;
     private String password;
+    private String creditCard;
 
     protected Passenger() {
     }
@@ -43,6 +44,14 @@ public class Passenger implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(String creditCard) {
+        this.creditCard = creditCard;
     }
 
 }

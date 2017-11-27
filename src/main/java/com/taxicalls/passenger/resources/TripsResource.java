@@ -70,6 +70,7 @@ public class TripsResource {
     @Path("/drivers/choose")
     public Response chooseDriver(ChooseDriverRequest chooseDriverRequest) {
         LOGGER.log(Level.INFO, "chooseDriver() invoked");
+        tripService.chooseDriver(chooseDriverRequest);
         return notificationService.chooseDriver(chooseDriverRequest);
     }
 }
